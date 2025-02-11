@@ -16,15 +16,19 @@ const useFormStore = create((set) => ({
     IdSearchResults: [],
     setIdSearchResults: (i)=> set((state) => ({searchIdResults: i})),
     clockHr: 7,
+    setClockHr: (i) => set ((state) => ({clockHr: i})),
     clockMin: 30,
+    setClockMin: (i) => set ((state) => ({clockMin: i})),
     isPm: true,
+    setIsPm: (i) => ((state) => ({isPm: i})),
     atTheater: true,
+    setAtTheater: (i) => ((state) => ({atTheater: i})),
     endTime: null,
     setEndTime: (i) => set((state) => ({endTime: i})),
-    isLoadingResults: false,
     genreList: [],
+    setGenreList: (i) => ((state) => ({setGenreList: i})),
     castList: [],
-    relatedMoviesList: [],
+    setCastList: (i) => ((state) => ({castList: i})),
 }))
 
 export default useFormStore

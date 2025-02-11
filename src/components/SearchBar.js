@@ -36,10 +36,6 @@ export default function SearchBar (){
     } 
 
     useEffect(() => {
-
-    })
-
-    useEffect(() => {
         if (isSearchClicked && isLoading === false && searchResults){
             if (searchResults.length === 0){
                 setNoResults(true)
