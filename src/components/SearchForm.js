@@ -29,14 +29,6 @@ export default function SearchForm() {
             setClockHr(userTimeHr - 12)
         }
     }, [])
-    
-    const handleTheaterToggle = (atTheater) => {
-        setAtTheater(atTheater);
-    };
-    
-    const handleTimeOfDayToggle = (isPm) => {
-        setIsPm(isPm);
-    };
 
     const handleAddHour = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr+1)}:${parseInt(clockMin)}:00`)
@@ -80,8 +72,8 @@ export default function SearchForm() {
         <div className="text-white">
             <p className="text-center font-bold text-xl">Where are you watching?</p>
             <div className="flex justify-center">
-                <button onClick={() => handleTheaterToggle(true)} className={`bg-gray-700 m-3 p-3 border-solid border-2 rounded-lg border-orange-500 bg-gray-700 ${atTheater ? "bg-orange-500" : ""}`}>In Theaters</button>
-                <button onClick={() => handleTheaterToggle(false)} className={`bg-gray-700 m-3 p-3 border-solid border-2 rounded-lg border-orange-500 bg-gray-700 ${atTheater ? "" : "bg-orange-500" }`}>At Home</button>
+                <button onClick={() => setAtTheater(true)} className={`bg-gray-700 m-3 p-3 border-solid border-2 rounded-lg border-orange-500 bg-gray-700 ${atTheater ? "bg-orange-500" : ""}`}>In Theaters</button>
+                <button onClick={() => setAtTheater(false)} className={`bg-gray-700 m-3 p-3 border-solid border-2 rounded-lg border-orange-500 bg-gray-700 ${atTheater ? "" : "bg-orange-500" }`}>At Home</button>
             </div>
             {atTheater ? <p className="text-center text-sm">*Approximate time for ads and trailers will be accounted for.</p> : <span></span>}
         </div>
@@ -92,7 +84,7 @@ export default function SearchForm() {
                     <div onClick={handleAddHour} className="text-3xl text bg-gray-700 border-2 border-b-0 border-solid rounded-t-lg border-orange-500 h-7 hover:bg-orange-500 flex items-start justify-center pt-1 px-4">
                         <button className="relative bottom-2 ">+</button>
                     </div>
-                    <input onChange={(event) => setClockHr(event.target.value)} className="text-3xl bg-sky-950 border-solid border-r-2 border-l-2 text-center border-orange-500 w-14 h-14" value={clockHr} type="number" />
+                    <input onChange={(event) => setClockHr(event.target.value)} className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-3xl bg-sky-950 border-solid border-r-2 border-l-2 text-center border-orange-500 w-14 h-14" value={clockHr} type="number" />
                     <div onClick={handleSubtractHour} className="text-4xl text bg-gray-700 border-2 border-t-0 border-solid rounded-b-lg border-orange-500 h-7 hover:bg-orange-500 flex items-start justify-center pt-1 px-4">
                         <button className="relative bottom-3 ">-</button>
                     </div>                        
@@ -102,16 +94,16 @@ export default function SearchForm() {
                     <div onClick={handleAddMin} className="text-3xl text bg-gray-700 border-2 border-b-0 border-solid rounded-t-lg border-orange-500 h-7 hover:bg-orange-500 flex items-start justify-center pt-1 px-4">
                         <button className="relative bottom-2 ">+</button>
                     </div>
-                    <input onChange={(event) => setClockMin(event.target.value)} className="text-3xl bg-sky-950 border-solid border-r-2 border-l-2 text-center border-orange-500 w-14 h-14" value={clockMin} type="number" max="59" min="00" />
+                    <input onChange={(event) => setClockMin(event.target.value)} className="[&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none text-3xl bg-sky-950 border-solid border-r-2 border-l-2 text-center border-orange-500 w-14 h-14" value={clockMin} type="number" max="59" min="00" />
                     <div onClick={handleSubtractMin} className="text-4xl text bg-gray-700 border-2 border-t-0 border-solid rounded-b-lg border-orange-500 h-7 hover:bg-orange-500 flex items-start justify-center pt-1 px-4">
                         <button className="relative bottom-3 ">-</button>
                     </div>                        
                 </div>
                 <div className="flex flex-col pl-5">
-                    <div onClick={() => handleTimeOfDayToggle(false)} className={`px-2 text-lg text bg-gray-700 border-2 border-b-2 border-solid rounded-t-lg border-orange-500 flex items-start justify-center pt-1 ${isPm ? "" : "bg-orange-500"}`}>
+                    <div onClick={() => setIsPm(false)} className={`px-2 text-lg text bg-gray-700 border-2 border-b-2 border-solid rounded-t-lg border-orange-500 flex items-start justify-center pt-1 ${isPm ? "" : "bg-orange-500"}`}>
                         <button className="p-2">AM</button>
                     </div>
-                    <div onClick={() => handleTimeOfDayToggle(true)} className={`px-2 text-lg text bg-gray-700 border-2 border-b-2 border-solid rounded-b-lg border-orange-500 flex items-start justify-center pt-1 ${isPm ? "bg-orange-500" : ""}`}>
+                    <div onClick={() => setIsPm(true)} className={`px-2 text-lg text bg-gray-700 border-2 border-b-2 border-solid rounded-b-lg border-orange-500 flex items-start justify-center pt-1 ${isPm ? "bg-orange-500" : ""}`}>
                         <button className="p-2">PM</button>
                     </div>                        
                 </div>

@@ -2,15 +2,10 @@ import useFormStore from '../store/form-data.js';
 import { MdOutlineCancel } from "react-icons/md";
 
 export default function SelectedMovie () {
-    const { isMovieSelected,selectedMovieInfo,setSelectedMovieInfo,setSearchTerm,setSelectedMovieId,setEndTime, setIsMovieSelected } = useFormStore.getState();
+    const { isMovieSelected,selectedMovieInfo, clearSelected } = useFormStore.getState();
 
     const handleRemoveSelected = () => {
-        setIsMovieSelected()
-        setSelectedMovieInfo([])
-        setSearchTerm('')
-        setSelectedMovieId(null)
-        setEndTime(null)
-        setIsMovieSelected(false)
+        clearSelected();
     }
     
     const obj = isMovieSelected ? 

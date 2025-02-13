@@ -10,7 +10,7 @@ const useFormStore = create((set) => ({
     isMovieSelected: false,
     setIsMovieSelected: (bool) => set((state) => ({selectedMovieId: bool})),
     selectedMovieInfo: [],
-    setSelectedMovieInfo: (i) => set((state) => ({selectedMovieInfo: i})),
+    setSelectedMovieInfo: (i) => set((state) => ({selectedMovieInfo: i, isMovieSelected: true, searchResults: null})),
     selectedMovieResults: {},
     setSelectedMovieResults: (i) => set((state) => ({selectedMovieResults: i})),
     IdSearchResults: [],
@@ -20,15 +20,17 @@ const useFormStore = create((set) => ({
     clockMin: 30,
     setClockMin: (i) => set ((state) => ({clockMin: i})),
     isPm: true,
-    setIsPm: (i) => ((state) => ({isPm: i})),
+    setIsPm: (i) => set((state) => ({isPm: i})),
     atTheater: true,
-    setAtTheater: (i) => ((state) => ({atTheater: i})),
+    setAtTheater: (bool) => set((state) => ({atTheater: bool})),
     endTime: null,
     setEndTime: (i) => set((state) => ({endTime: i})),
     genreList: [],
     setGenreList: (i) => ((state) => ({setGenreList: i})),
     castList: [],
     setCastList: (i) => ((state) => ({castList: i})),
+    clearSelected: (i) => set((state) => ({selectedMovieInfo: [], selectedMovieId: null, isMovieSelected: false, searchTerm: "", endTime: null})),
+    clearSearch: (i) => set((state) => ({searchResults: null, searchTerm: ""})),
 }))
 
 export default useFormStore
