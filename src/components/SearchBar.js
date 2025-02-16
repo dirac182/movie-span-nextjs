@@ -11,7 +11,7 @@ import SelectedMovieBanner from "./SelectedMovieBanner.js";
 
 export default function SearchBar (){
  
-    const { searchTerm, setSearchTerm, searchResults, clearSearch } = useFormStore();
+    const { searchTerm, setSearchTerm, searchResults, clearSearch, IdSearchResults } = useFormStore();
     const [noResults, setNoResults] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSearchClicked, setIsSearchClicked] = useState(false);
@@ -23,16 +23,14 @@ export default function SearchBar (){
 
     const handleSearchButton = (event) => {
         event.preventDefault();
-        console.log(searchTerm)
         if(searchTerm.length >= 2){
             useSearchMovies();
             setIsSearchClicked(true)
-        }else{
-            console.log("Term too short")
         }
     } 
 
     useEffect(() => {
+        
         if (isSearchClicked && isLoading === false && searchResults){
             if (searchResults.length === 0){
                 setNoResults(true)

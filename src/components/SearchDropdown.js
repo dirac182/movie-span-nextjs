@@ -4,14 +4,13 @@ import useSearchMovieId from "@/api/searchMovieId.js";
 
 export default function SearchDropdown({title, id, image, year}) {
     const releaseYear = year ? `(${year})`: ""
-    const { setSelectedMovieInfo,  setSelectedMovieId, setIsMovieSelected } = useFormStore.getState();
+    const { setSelectedMovieInfo,  setSelectedMovieId } = useFormStore.getState();
     
     const handleMovieClick = () => {
         console.log("dropdown clicked")
         setSelectedMovieInfo({title,id,image,year})
         setSelectedMovieId(id)
         useSearchMovieId()
-        setIsMovieSelected(true)
     }
 
     return(
