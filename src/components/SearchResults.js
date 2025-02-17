@@ -5,9 +5,10 @@ import { FaImdb } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { useSpring, animated } from "react-spring";
 import useFormStore from '../store/form-data.js';
+import Image from "next/image.js";
 
 export default function SearchResults() {
-    const {  atTheater,IdSearchResults ,isMovieSelected, selectedMovieResults,clockHr, clockMin,isPm,isAtTheater,endTime,selectedMovieId,setEndTime, setSelectedMovieResults, setResultLists} = useFormStore();
+    const {  atTheater,IdSearchResults ,isMovieSelected,clockHr, clockMin,isPm,endTime,setEndTime} = useFormStore();
     const [accordionIsOpen, setAccordionIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const trailerTime = 22; //minutes
@@ -75,7 +76,7 @@ export default function SearchResults() {
                     <p className="text-white text-sm md:text-lg pt-2">{IdSearchResults.plotText}</p>
                     <p className="text-white text-lg md:text-xl pt-2">Main Cast</p>
                     <div className="flex flex-wrap justify-center">
-                        {IdSearchResults.castList.map((cast,index)=> {const charName = cast.node.characters ? cast.node.characters[0].name : "N/A"; const imageLink = cast.node.name.primaryImage ? cast.node.name.primaryImage.url : "../images/no-image.jpg" ; return <a key={index} target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/name/${cast.node.name.id}`}><div className="text-white text-xs bg-gray-700 border-solid border-2 border-orange-500 rounded-lg m-1 p-0.5" key={cast.node.name.id}><div className="flex justify-center "><img alt="Cast memeber" style={{width:"auto", height:"100px", borderRadius: "10px"}} src={imageLink}/></div><p>{cast.node.name.nameText.text} <br/> as {charName}</p></div></a> })}
+                        {IdSearchResults.castList.map((cast,index)=> {const charName = cast.node.characters ? cast.node.characters[0].name : "N/A"; const imageLink = cast.node.name.primaryImage ? cast.node.name.primaryImage.url : "../images/no-image.jpg" ; return <a key={index} target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/name/${cast.node.name.id}`}><div className="text-white text-xs bg-gray-700 border-solid border-2 border-orange-500 rounded-lg m-1 p-0.5" key={cast.node.name.id}><div className="flex justify-center "><Image alt="Cast memeber" width={125} height={100} style={{borderRadius: "10px"}} src={imageLink}/></div><p>{cast.node.name.nameText.text} <br/> as {charName}</p></div></a> })}
                     </div>
                 </div>
             </animated.div>

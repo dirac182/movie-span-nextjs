@@ -1,16 +1,17 @@
 import Image from "next/image"
 import useFormStore from '../store/form-data.js';
-import useSearchMovieId from "@/api/searchMovieId.js";
+import useSearchMovieId from "@/app/api/searchMovieId.js";
 
 export default function SearchDropdown({title, id, image, year}) {
     const releaseYear = year ? `(${year})`: ""
-    const { setSelectedMovieInfo,  setSelectedMovieId } = useFormStore.getState();
+    const { setSelectedMovieInfo,  setSelectedMovieId, setIdSearchResults } = useFormStore.getState();
     
-    const handleMovieClick = () => {
+    const handleMovieClick = async () => {
         console.log("dropdown clicked")
         setSelectedMovieInfo({title,id,image,year})
         setSelectedMovieId(id)
-        useSearchMovieId()
+        const search = await useSearchMovieId(id)
+        await setIdSearchResults(search)
     }
 
     return(

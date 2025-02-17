@@ -1,18 +1,16 @@
-import useFormStore from '../store/form-data.js';
-
-export default async function searchMovieId() {
-    const { selectedMovieId, setIdSearchResults } = useFormStore.getState();
-    const apiSearchUrl = process.env.NEXT_PUBLIC_API_ID_SEARCH_URL;
+"use server";
+export default async function searchMovieId(id) {
+    const apiSearchUrl = process.env.API_ID_SEARCH_URL;
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': process.env.NEXT_PUBLIC_API_KEY,
-            'X-RapidAPI-Host': process.env.NEXT_PUBLIC_API_HOST
+            'X-RapidAPI-Key': process.env.API_KEY,
+            'X-RapidAPI-Host': process.env.API_HOST
         }
     }
 
     try {
-        const url = `${apiSearchUrl}?id=${encodeURIComponent(selectedMovieId)}`;
+        const url = `${apiSearchUrl}?id=${encodeURIComponent(id)}`;
         const response = await fetch(url, options);
         const data = await response.json()
         
@@ -32,8 +30,8 @@ export default async function searchMovieId() {
             genreList: data.titleGenres.genres,
             relatedMoviesList: data.moreLikeThisTitles.edges.slice(0, 5),
         };
-        setIdSearchResults(movieData)
         console.log("Movie Searched: ", name," -- Runtime: " ,runtime)
+        return movieData;
 
     } catch (error) {
         console.error("Search Term Error: ", error);

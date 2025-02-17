@@ -1,21 +1,23 @@
-import useFormStore from '../store/form-data.js';
+"use server";
+import dotenv from 'dotenv';
 
-export default async function searchMovie(req, res) {
-    const { searchTerm, setSearchResults } = useFormStore.getState();
-    console.log("Term searched: " + searchTerm);
+dotenv.config();
 
-    const apiSearchUrl = process.env.NEXT_PUBLIC_API_SEARCH_URL;
+export default async function searchMovie(term) {
+    console.log("Term searched: " + term);
+
+    const apiSearchUrl = process.env.API_SEARCH_URL;
 
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': process.env.NEXT_PUBLIC_API_KEY,
-            'X-RapidAPI-Host': process.env.NEXT_PUBLIC_API_HOST
+            'X-RapidAPI-Key': process.env.API_KEY,
+            'X-RapidAPI-Host': process.env.API_HOST
         }
     }
 
     try {
-        const url = `${apiSearchUrl}?query=${encodeURIComponent(searchTerm)}`;
+        const url = `${apiSearchUrl}?query=${encodeURIComponent(term)}`;
         const response = await fetch(url, options);
         const data = await response.json()
         const movieList = data.titleResults.results.map((movie) => {
@@ -25,8 +27,7 @@ export default async function searchMovie(req, res) {
             }
             return null;
         }).filter((movie) => movie !== null);
-        setSearchResults(movieList)
-        console.log("movie list:",movieList)
+        return movieList;
 
     } catch (error) {
         console.error("Search Term Error: ", error);

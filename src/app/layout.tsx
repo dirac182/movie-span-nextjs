@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
-import { Josefin_Sans, League_Spartan } from "next/font/google";
+import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 
 const joseSans = Josefin_Sans({
-  
+  subsets: ['latin'],
 });
 
-const geistMono = League_Spartan({
-  variable: "--font-league-spartan-mono",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://moviespan.net'),
@@ -40,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${joseSans.className} ${geistMono.variable} antialiased`}
+        className={`${joseSans.className} antialiased`}
       >
         {children}
       </body>

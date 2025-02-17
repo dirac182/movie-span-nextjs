@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import useFormStore from "../store/form-data.js";
 import { FaSearch } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
-import useSearchMovies from "../api/searchMovie.js";
+import useSearchMovies from "../app/api/searchMovie.js";
 import SearchDropdown from "./SearchDropdown.js"
 import { ThreeCircles } from "react-loader-spinner";
 import SelectedMovieBanner from "./SelectedMovieBanner.js";
@@ -11,7 +11,7 @@ import SelectedMovieBanner from "./SelectedMovieBanner.js";
 
 export default function SearchBar (){
  
-    const { searchTerm, setSearchTerm, searchResults, clearSearch, IdSearchResults } = useFormStore();
+    const { searchTerm, setSearchTerm, searchResults, clearSearch, setSearchResults } = useFormStore();
     const [noResults, setNoResults] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSearchClicked, setIsSearchClicked] = useState(false);
@@ -21,16 +21,18 @@ export default function SearchBar (){
             setIsSearchClicked(false);
         }
 
-    const handleSearchButton = (event) => {
+    const handleSearchButton = async (event) => {
         event.preventDefault();
         if(searchTerm.length >= 2){
-            useSearchMovies();
             setIsSearchClicked(true)
+            const movieList = await useSearchMovies(searchTerm);
+            
+            await setSearchResults(movieList);
+            
         }
     } 
 
     useEffect(() => {
-        
         if (isSearchClicked && isLoading === false && searchResults){
             if (searchResults.length === 0){
                 setNoResults(true)
