@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
+import { Analytics } from '@vercel/analytics/next';
 
 const joseSans = Josefin_Sans({
   subsets: ['latin'],
@@ -36,10 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${joseSans.className} antialiased`}
-      >
+      <body className={`${joseSans.className} antialiased`}>
         {children}
+        <Analytics />
       </body>
     </html>
   );

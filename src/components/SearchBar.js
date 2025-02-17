@@ -26,7 +26,9 @@ export default function SearchBar (){
         event.preventDefault();
         if(searchTerm.length >= 2){
             setIsSearchClicked(true)
-            inputRef.current?.blur();
+            setTimeout(() => {
+                inputRef.current?.blur();
+            }, 100);
             const movieList = await useSearchMovies(searchTerm);
             await setSearchResults(movieList);
             
