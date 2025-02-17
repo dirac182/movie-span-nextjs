@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import useFormStore from "../store/form-data.js";
 import { FaSearch } from "react-icons/fa";
 import { MdOutlineCancel } from "react-icons/md";
@@ -15,6 +15,7 @@ export default function SearchBar (){
     const [noResults, setNoResults] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const inputRef = useRef(null); 
     
     const handleClearSearchTerm = () => {
             clearSearch();
@@ -25,8 +26,8 @@ export default function SearchBar (){
         event.preventDefault();
         if(searchTerm.length >= 2){
             setIsSearchClicked(true)
+            inputRef.current?.blur();
             const movieList = await useSearchMovies(searchTerm);
-            
             await setSearchResults(movieList);
             
         }
