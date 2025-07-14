@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans } from "next/font/google";
 import "./globals.css";
 import { Analytics } from '@vercel/analytics/next';
+import Script from "next/script";
 
 const joseSans = Josefin_Sans({
   subsets: ['latin'],
@@ -40,6 +41,9 @@ export default function RootLayout({
       <body className={`${joseSans.className} antialiased`}>
         {children}
         <Analytics />
+        <Script
+          defer src="https://analytics.tarsdrive.cc/script.js" data-website-id="9c33b10c-d81e-4c93-ba69-ff77c189818c">
+        </Script>
       </body>
     </html>
   );

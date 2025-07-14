@@ -41,6 +41,7 @@ export default function SearchForm() {
     const handleSubtractHour = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr-1)}:${parseInt(clockMin)}:00`)
         if(parseInt(newTime.getHours()) > 12){
+                console.log("Invalid Hour")
                 setClockHr(newTime.getHours() -12)
         }else if (newTime.getHours() == 0){
                 setClockHr(12)
