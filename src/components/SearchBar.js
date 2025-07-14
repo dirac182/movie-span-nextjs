@@ -25,6 +25,11 @@ export default function SearchBar (){
     const handleSearchButton = async (event) => {
         event.preventDefault();
         if(searchTerm.length >= 2){
+            if (typeof window !== 'undefined' && window.umami) {
+            window.umami.track('search_button_click', {
+                search_term: searchTerm.trim()
+            });
+        }
             setIsSearchClicked(true)
             setTimeout(() => {
                 inputRef.current?.blur();
