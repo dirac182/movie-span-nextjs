@@ -1,10 +1,12 @@
 import Image from "next/image"
 import useFormStore from '../store/form-data.js';
 import useSearchMovieId from "@/app/api/searchMovieId.js";
+import missingImg from "../../public/missing_img.png"
 
 export default function SearchDropdown({title, id, image, year}) {
     const releaseYear = year ? `(${year})`: ""
     const { setSelectedMovieInfo,  setSelectedMovieId, setIdSearchResults } = useFormStore.getState();
+    const imageUrl = image ? image : missingImg
     
     const handleMovieClick = async () => {
         console.log("dropdown clicked")
@@ -19,7 +21,7 @@ export default function SearchDropdown({title, id, image, year}) {
             <Image alt="movie poster" style={{borderRadius: "10px"}} 
                 width={55}
                 height={85} 
-                src={image}/>
+                src={imageUrl}/>
             <p className="px-2 text-lg font-bold">{title}</p>
             <p className="pr-2">{releaseYear}</p>
         </div>
