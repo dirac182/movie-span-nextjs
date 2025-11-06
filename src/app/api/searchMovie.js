@@ -21,12 +21,13 @@ export default async function searchMovie(term) {
         const response = await fetch(url, options);
         const data = await response.json()
         const movieList = data.titleResults.results.map((movie) => {
-            const posterUrl = movie.titlePosterImageModel?.url || null;
-            if (movie.imageType === "movie"){
-                return {"title": movie.titleNameText, "id": movie.id, "image": posterUrl, "releaseDate": movie.titleReleaseText}
+            const posterUrl = movie.listItem.primaryImage?.url || null;
+            if (movie.listItem.titleType.id === "movie"){
+                return {"title": movie.listItem.originalTitleText, "id": movie.index, "image": posterUrl, "releaseDate": movie.listItem.releaseDate.year}
             }
             return null;
         }).filter((movie) => movie !== null);
+        console.log(movieList)
         return movieList;
 
     } catch (error) {

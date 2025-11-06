@@ -13,7 +13,7 @@ export default async function searchMovieId(id) {
         const url = `${apiSearchUrl}?id=${encodeURIComponent(id)}`;
         const response = await fetch(url, options);
         const data = await response.json()
-        
+        console.log(data)
         const name = data.originalTitleText.text
         const runtime = data.runtime.seconds.toString()
         const movieData = {
