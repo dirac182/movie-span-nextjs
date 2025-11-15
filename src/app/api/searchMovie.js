@@ -23,7 +23,19 @@ export default async function searchMovie(term) {
         const movieList = data.titleResults.results.map((movie) => {
             const posterUrl = movie.listItem.primaryImage?.url || null;
             if (movie.listItem.titleType.id === "movie"){
-                return {"title": movie.listItem.originalTitleText, "id": movie.index, "image": posterUrl, "releaseDate": movie.listItem.releaseDate.year}
+                let info;
+
+                try {
+                    info = {
+                        "title": movie.listItem.originalTitleText,
+                        "id": movie.index,
+                        "image": posterUrl,
+                        "releaseDate": movie.listItem.releaseDate.year 
+                    }
+                } catch (error) {
+                    info = {"title": "Unavailable", "id": "Unavailable", "image": null, "releaseDate": ""}
+                }
+                return info;
             }
             return null;
         }).filter((movie) => movie !== null);
@@ -32,6 +44,5 @@ export default async function searchMovie(term) {
 
     } catch (error) {
         console.error("Search Term Error: ", error);
-        res.status(500).json({ error: 'Internal Server Error' });
     }
 }
