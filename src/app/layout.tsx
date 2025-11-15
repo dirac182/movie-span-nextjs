@@ -42,7 +42,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <Script
-          defer src="https://analytics.tarsdrive.cc/script.js" data-website-id="9c33b10c-d81e-4c93-ba69-ff77c189818c">
+          defer src="https://dw1hbwkgyw5hbhl0awnz.tarsdrive.cc/script.js" data-website-id="9c33b10c-d81e-4c93-ba69-ff77c189818c">
         </Script>
       </body>
     </html>
