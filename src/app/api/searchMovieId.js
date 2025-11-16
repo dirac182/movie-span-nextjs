@@ -4,7 +4,7 @@ export default async function searchMovieId(id) {
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': process.env.API_KEY,
+            'X-RapidAPI-Key': process.env.API_KEY1,
             'X-RapidAPI-Host': process.env.API_HOST
         }
     }

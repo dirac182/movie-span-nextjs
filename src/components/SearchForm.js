@@ -1,5 +1,5 @@
 'use client'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFormStore from "../store/form-data.js";
 
 export default function SearchForm() {
@@ -7,6 +7,7 @@ export default function SearchForm() {
     const now = new Date();
     const userTimeHr = now.getHours();
     const userTimeMin = now.getMinutes();
+    const [isTwelveHr,setIsTwelveHr] = useState(true)
 
     useEffect(() => {
         setClockHr(userTimeHr)
@@ -80,7 +81,15 @@ export default function SearchForm() {
         </div>
         <div className="text-white py-3">
             <p className="text-center font-bold text-xl">What time does it start?</p>
-            <div className="flex justify-center items-center p-6">
+            <div className="flex justify-center pt-2">
+                    <div className={`text-lg text bg-gray-700 border-2 border-r-0 border-solid rounded-l-lg border-orange-500 hover:bg-orange-500 ${isTwelveHr ? "bg-orange-500" : ""} flex items-start justify-center p-1`}>
+                        <button onClick={() => setIsTwelveHr(true)} className="pt-1">12hr</button>
+                    </div>
+                    <div className={`text-lg text bg-gray-700 border-2 border-l-0 border-solid rounded-r-lg border-orange-500 hover:bg-orange-500 ${isTwelveHr ? "" : "bg-orange-500"} flex items-start justify-center p-1`}>
+                        <button onClick={() => setIsTwelveHr(false)} className="pt-1">24hr </button>
+                    </div>
+                </div>
+            <div className="flex justify-center items-center p-4">
                 <div className="flex flex-col">
                     <div onClick={handleAddHour} className="text-3xl text bg-gray-700 border-2 border-b-0 border-solid rounded-t-lg border-orange-500 h-7 hover:bg-orange-500 flex items-start justify-center pt-1 px-4">
                         <button className="relative bottom-2 ">+</button>

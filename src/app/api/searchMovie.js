@@ -1,5 +1,6 @@
 "use server";
 import dotenv from 'dotenv';
+import { headers } from 'next/headers';
 
 dotenv.config();
 
@@ -11,7 +12,7 @@ export default async function searchMovie(term) {
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': process.env.API_KEY,
+            'X-RapidAPI-Key': process.env.API_KEY1,
             'X-RapidAPI-Host': process.env.API_HOST
         }
     }
@@ -20,6 +21,7 @@ export default async function searchMovie(term) {
         const url = `${apiSearchUrl}?query=${encodeURIComponent(term)}`;
         const response = await fetch(url, options);
         const data = await response.json()
+        
         const movieList = data.titleResults.results.map((movie) => {
             const posterUrl = movie.listItem.primaryImage?.url || null;
             if (movie.listItem.titleType.id === "movie"){
@@ -27,7 +29,7 @@ export default async function searchMovie(term) {
             }
             return null;
         }).filter((movie) => movie !== null);
-        console.log(movieList)
+        
         return movieList;
 
     } catch (error) {
