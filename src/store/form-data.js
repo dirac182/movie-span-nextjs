@@ -27,6 +27,8 @@ const useFormStore = create((set) => ({
     setEndTime: (i) => set(() => ({endTime: i})),
     clearSelected: () => set(() => ({selectedMovieInfo: [], selectedMovieId: null, isMovieSelected: false, searchTerm: "", endTime: null, endTime: null, IdSearchResults: null})),
     clearSearch: () => set(() => ({searchResults: null, searchTerm: ""})),
+    isTwelveHr: true,
+    setIsTwelveHr: (i) => set(() => ({isTwelveHr: i}))
 }))
 
 export default useFormStore

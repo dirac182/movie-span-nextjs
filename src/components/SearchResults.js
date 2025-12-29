@@ -8,7 +8,7 @@ import useFormStore from '../store/form-data.js';
 import Image from "next/image.js";
 
 export default function SearchResults() {
-    const {  atTheater,IdSearchResults ,isMovieSelected,clockHr, clockMin,isPm,endTime,setEndTime} = useFormStore();
+    const {  atTheater,IdSearchResults ,isMovieSelected,clockHr, clockMin,isPm,endTime,setEndTime, isTwelveHour} = useFormStore();
     const [accordionIsOpen, setAccordionIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const trailerTime = 22; //minutes
