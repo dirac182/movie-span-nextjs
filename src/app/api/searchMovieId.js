@@ -23,10 +23,10 @@ export default async function searchMovieId(id) {
             runtimeString: data.runtime.displayableProperty.value.plainText,
             rating: data.ratingsSummary.aggregateRating,
             ratingCount: data.ratingsSummary.voteCount,
-            director: data.directorsPageTitle[0]?.credits[0]?.name.nameText.text, // Use optional chaining to avoid errors
-            directorId: data.directorsPageTitle[0]?.credits[0]?.name.id,
+            director: data.principalCreditsV2[0]?.credits[0]?.name.nameText.text,
+            directorId: data.principalCreditsV2[0]?.credits[0]?.name.id,
             plotText: data.plot.plotText.plainText,
-            castList: data.castPageTitle.edges.slice(0, 5),
+            castList: data.principalCreditsV2[2].credits,
             genreList: data.titleGenres.genres,
             relatedMoviesList: data.moreLikeThisTitles.edges.slice(0, 5),
         };
