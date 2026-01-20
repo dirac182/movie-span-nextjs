@@ -3,12 +3,13 @@ import { FaLinkedin } from "react-icons/fa6";
 
 
 export default function Footer () {
+    const year = new Date().getFullYear()
 
     return (
         <div className="flex-shrink-0 flex text-white justify-between w-full px-2 content-end pt-10 pb-3">
                 
                 <div className="flex flex-col items-center">
-                    <p className="text-sm md:text-lg px-2 text-center">Copyright © 2025 Movie Span</p>
+                    <p className="text-sm md:text-lg px-2 text-center">Copyright © {year} Movie Span</p>
                 </div>
                 <div className="flex flex-col md:flex-row items-center pr-6">
                     <p className="text-sm md:text-lg text-center">Created by dirac182</p>
