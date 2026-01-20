@@ -7,10 +7,11 @@ export default function SearchForm() {
     const now = new Date();
     const userTimeHr = now.getHours();
     const userTimeMin = now.getMinutes();
+    //DEBUGGING WITH FIXED TIME
+    // const userTimeHr = 23;
+    // const userTimeMin = 22;
 
     useEffect(() => {
-        console.log(userTimeHr)
-        console.log(userTimeMin)
         setClockHr(userTimeHr)
         setClockMin(userTimeMin)
         const roundedMinutes = (Math.ceil(userTimeMin / 5) * 5).toString().padStart(2, '0');
@@ -43,7 +44,6 @@ export default function SearchForm() {
     const handleSubtractHour12 = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr-1)}:${parseInt(clockMin)}:00`)
         if(parseInt(newTime.getHours()) > 12){
-                console.log("Invalid Hour")
                 setClockHr(newTime.getHours() -12)
         }else if (newTime.getHours() == 0){
                 setClockHr(12)
@@ -53,8 +53,7 @@ export default function SearchForm() {
     }
     const handleAddHour24 = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr)}:${parseInt(clockMin)}:00`)
-        console.log(newTime)
-        if(parseInt(newTime.getHours() - 1) > 23){
+        if(parseInt(newTime.getHours() + 1) > 23){
             setClockHr(0)
         }else{
             setClockHr(newTime.getHours() + 1)
@@ -62,12 +61,11 @@ export default function SearchForm() {
     }
     const handleSubtractHour24 = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr-1)}:${parseInt(clockMin)}:00`)
-        if(parseInt(newTime.getHours()) > 23){
-                console.log("Invalid Hour")
-                setClockHr(0)
-        }else if (newTime.getHours() == 0){
+        
+        if(newTime == "Invalid Date" || parseInt(newTime.getHours()) < 0){
                 setClockHr(23)
-        }else{
+        }
+        else{
                 setClockHr(newTime.getHours())
             }
         }

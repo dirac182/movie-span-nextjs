@@ -39,20 +39,27 @@ export default function SearchResults() {
         }
         if (IdSearchResults){
             const timeToAdd = IdSearchResults.runtime;
+            
             const amPm = isPm ? "PM" : "AM"
-            const newTime = new Date(`01/01/2001 ${parseInt(clockHr)}:${parseInt(clockMin)} ${amPm}`)
+            const newTime = isTwelveHour 
+            ? new Date(`01/01/2001 ${parseInt(clockHr)}:${parseInt(clockMin)} ${amPm}`) 
+            : new Date(`01/01/2001 ${parseInt(clockHr)}:${parseInt(clockMin)}:00`)
             if (atTheater){
                 const newSeconds = parseInt(timeToAdd) + (trailerTime*60)
                 newTime.setSeconds(newTime.getSeconds() + newSeconds)
             }else{
                 newTime.setSeconds(newTime.getSeconds() + timeToAdd)
             }
-            const options = { hour: 'numeric', minute: '2-digit', hour12: true };
+            const options = isTwelveHour 
+            ? { hour: '2-digit', minute: '2-digit', hour12: true, dayPeriod: 'long' } 
+            : { hour: '2-digit', minute: '2-digit', hour12: false };
             const newTimeString = newTime.toLocaleTimeString('en-US', options);
+            console.log("End time calculated: " + newTimeString)
             setEndTime(newTimeString)
-            setIsLoading(false)
+            setIsLoading(false) 
+            
         }
-    },[clockHr,clockMin, isPm, atTheater, IdSearchResults, isMovieSelected])
+    },[clockHr,clockMin, isPm, atTheater, IdSearchResults, isMovieSelected, isTwelveHour])
 
     const endTimeDiv =  <div className="text-center p-5 md:w-2/5">
         <p className="font-bold text-white text-3xl border-dotted border-8 border-orange-500 p-2 ">Your movie will end around {endTime}</p> 
