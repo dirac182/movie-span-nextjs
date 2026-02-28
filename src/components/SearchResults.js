@@ -8,9 +8,10 @@ import useFormStore from '../store/form-data.js';
 import Image from "next/image.js";
 
 export default function SearchResults() {
-    const {  atTheater,IdSearchResults ,isMovieSelected,clockHr, clockMin,isPm,endTime,setEndTime, isTwelveHour} = useFormStore();
+    const {  atTheater,IdSearchResults ,isMovieSelected,clockHr, clockMin,isPm,endTime,setEndTime, isTwelveHr} = useFormStore();
     const [accordionIsOpen, setAccordionIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [endTime24, setEndTime24] = useState("");
     const trailerTime = 22; //minutes
 
     const toggleAccordion = () => {
@@ -38,27 +39,69 @@ export default function SearchResults() {
             setIsLoading(true);
         }
         if (IdSearchResults){
-            const timeToAdd = IdSearchResults.runtime;
-            const amPm = isPm ? "PM" : "AM"
-            const newTime = new Date(`01/01/2001 ${parseInt(clockHr)}:${parseInt(clockMin)} ${amPm}`)
-            if (atTheater){
-                const newSeconds = parseInt(timeToAdd) + (trailerTime*60)
-                newTime.setSeconds(newTime.getSeconds() + newSeconds)
-            }else{
-                newTime.setSeconds(newTime.getSeconds() + timeToAdd)
+            const timeToAdd = Number(IdSearchResults.runtime) || 0; // seconds
+            let hour = parseInt(clockHr, 10) || 0;
+            const minute = parseInt(clockMin, 10) || 0;
+
+            if (isTwelveHr) {
+                if (isPm) {
+                    if (hour !== 12) hour = (hour % 12) + 12;
+                } else {
+                    if (hour === 12) hour = 0;
+                }
+            } else {
+                hour = hour % 24;
             }
-            const options = { hour: 'numeric', minute: '2-digit', hour12: true };
-            const newTimeString = newTime.toLocaleTimeString('en-US', options);
-            setEndTime(newTimeString)
-            setIsLoading(false)
+
+            let newTime = new Date(2001, 0, 1, hour, minute, 0);
+            const additionalSeconds = atTheater ? timeToAdd + trailerTime * 60 : timeToAdd;
+                newTime.setSeconds(newTime.getSeconds() + additionalSeconds);
+            
+            const computedEndTime24 = new Intl.DateTimeFormat("en-GB", {
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+            }).format(newTime); // e.g. "19:42"
+
+            // 2) Friendly display (respects your 12/24 toggle)
+            const computedEndTimeDisplay = isTwelveHr
+                ? new Intl.DateTimeFormat("en-US-u-hc-h12", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    hour12: true,
+                }).format(newTime) // e.g. "7:42 PM"
+                : computedEndTime24; // e.g. "19:42"
+                
+            setEndTime(computedEndTimeDisplay);
+            setEndTime24(computedEndTime24);
+            setIsLoading(false);
         }
-    },[clockHr,clockMin, isPm, atTheater, IdSearchResults, isMovieSelected])
+    },[clockHr,clockMin, isPm, atTheater, IdSearchResults, isMovieSelected, isTwelveHr])
+
+    useEffect(() => {
+        console.log("STORE endTime CHANGED:", endTime);
+        }, [endTime]);
 
     const endTimeDiv =  <div className="text-center p-5 md:w-2/5">
         <p className="font-bold text-white text-3xl border-dotted border-8 border-orange-500 p-2 ">Your movie will end around {endTime}</p> 
     </div>
 
     const accordionButtonString = accordionIsOpen ? "Hide Movie Details" : "Show Movie Details"
+    //
+    useEffect(() => {
+        if (!IdSearchResults) return;
+        if (typeof window === "undefined" || !window.umami) {
+            console.warn("Umami not available");
+            return;
+        }
+        try {
+            console.log("Tracker trigger");
+            // send an object for properties (avoid sending a raw string)
+            window.umami.track("Movie Searched", { name: IdSearchResults.name });
+        } catch (err) {
+            console.error("umami.track error:", err);
+        }
+        }, [IdSearchResults]);
 
     const accordionDiv = IdSearchResults ? 
     <div className={`md:w-4/5 border-white pb-6 ${accordionIsOpen ? 'border-t-2' : 'border-t'}`}>

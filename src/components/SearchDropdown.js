@@ -17,13 +17,13 @@ export default function SearchDropdown({title, id, image, year}) {
     }
 
     return(
-        <div onClick={handleMovieClick} className="flex text-white items-center bg-gray-700 border-solid border-2 rounded-xl border-orange-500 hover:bg-gray-800 cursor-pointer md:w-fill md:p-2">
+        <div onClick={handleMovieClick} className="flex flex-col text-white items-center bg-gray-700 border-solid border-2 rounded-xl border-orange-500 hover:bg-gray-800 cursor-pointer md:w-fill p-2">
             <Image alt="movie poster" style={{borderRadius: "10px"}} 
-                width={55}
+                width={150}
                 height={85} 
                 src={imageUrl}/>
             <p className="px-2 text-lg font-bold">{title}</p>
             <p className="pr-2">{releaseYear}</p>
         </div>
     )
-}
+}   

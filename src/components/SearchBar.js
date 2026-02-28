@@ -87,7 +87,7 @@ export default function SearchBar (){
                         </div>
                     </div>
                 
-                    <div onClick={handleClearSearchTerm} className="flex flex-col px-6 md:w-4/5 md:flex-row md:flex-wrap justify-center">
+                    <div onClick={handleClearSearchTerm} className="flex flex-wrap px-6 md:w-4/5 md:flex-row md:flex-wrap justify-center">
                         {!isLoading && searchDropdown}
                         {isLoading && spinnerDiv}
                         {noResults && noResultsDiv}

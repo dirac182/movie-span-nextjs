@@ -7,17 +7,19 @@ export default function SearchForm() {
     const now = new Date();
     const userTimeHr = now.getHours();
     const userTimeMin = now.getMinutes();
+    //DEBUGGING WITH FIXED TIME
+    // const userTimeHr = 23;
+    // const userTimeMin = 22;
 
     useEffect(() => {
-        console.log(userTimeHr)
-        console.log(userTimeMin)
         setClockHr(userTimeHr)
         setClockMin(userTimeMin)
         const roundedMinutes = (Math.ceil(userTimeMin / 5) * 5).toString().padStart(2, '0');
-        if (roundedMinutes == 60){
-            setClockMin("00")
-            setClockHr(clockHr+1)
-        }else{
+        if (Number(roundedMinutes) === 60) {
+            setClockMin("00");
+            setClockHr(userTimeHr + 1); // not clockHr + 1
+        }
+        else{
             setClockMin(roundedMinutes);
         }
         if(userTimeHr === 0 && isTwelveHr){
@@ -33,28 +35,29 @@ export default function SearchForm() {
     }, [isTwelveHr])
 
     const handleAddHour12 = () => {
-        const newTime = new Date(`01/01/2001 ${parseInt(clockHr+1)}:${parseInt(clockMin)}:00`)
-        if(parseInt(newTime.getHours()) > 12){
-            setClockHr(newTime.getHours() -12)
-        }else{
-            setClockHr(newTime.getHours())
-        }
-    }
-    const handleSubtractHour12 = () => {
-        const newTime = new Date(`01/01/2001 ${parseInt(clockHr-1)}:${parseInt(clockMin)}:00`)
-        if(parseInt(newTime.getHours()) > 12){
-                console.log("Invalid Hour")
-                setClockHr(newTime.getHours() -12)
-        }else if (newTime.getHours() == 0){
-                setClockHr(12)
-        }else{
-                setClockHr(newTime.getHours())
-            }
-    }
+        const h = Number(clockHr) || 12;
+
+        // going 11 -> 12 flips AM/PM
+        if (h === 11) setIsPm(!isPm);
+
+        // advance hour with wrap 12-hour
+        const next = (h % 12) + 1; // 12->1, 11->12
+            setClockHr(next);
+        };
+
+        const handleSubtractHour12 = () => {
+        const h = Number(clockHr) || 12;
+
+        // going 12 -> 11 flips AM/PM (when subtracting)
+        if (h === 12) setIsPm(!isPm);
+
+        // subtract hour with wrap 12-hour
+        const prev = h === 1 ? 12 : h - 1; // 1->12
+        setClockHr(prev);
+    };
     const handleAddHour24 = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr)}:${parseInt(clockMin)}:00`)
-        console.log(newTime)
-        if(parseInt(newTime.getHours() - 1) > 23){
+        if(parseInt(newTime.getHours() + 1) > 23){
             setClockHr(0)
         }else{
             setClockHr(newTime.getHours() + 1)
@@ -62,12 +65,11 @@ export default function SearchForm() {
     }
     const handleSubtractHour24 = () => {
         const newTime = new Date(`01/01/2001 ${parseInt(clockHr-1)}:${parseInt(clockMin)}:00`)
-        if(parseInt(newTime.getHours()) > 23){
-                console.log("Invalid Hour")
-                setClockHr(0)
-        }else if (newTime.getHours() == 0){
+        
+        if(newTime == "Invalid Date" || parseInt(newTime.getHours()) < 0){
                 setClockHr(23)
-        }else{
+        }
+        else{
                 setClockHr(newTime.getHours())
             }
         }
@@ -105,13 +107,13 @@ export default function SearchForm() {
         <div className="text-white py-3">
             <p className="text-center font-bold text-xl">What time does it start?</p>
             <div className="flex justify-center pt-2">
-                    <div className={`text-lg text bg-gray-700 border-2 border-r-0 border-solid rounded-l-lg border-orange-500 hover:bg-orange-500 ${isTwelveHr ? "bg-orange-500" : ""} flex items-start justify-center p-1`}>
-                        <button onClick={() => setIsTwelveHr(true)} className="pt-1">12hr</button>
-                    </div>
-                    <div className={`text-lg text bg-gray-700 border-2 border-l-0 border-solid rounded-r-lg border-orange-500 hover:bg-orange-500 ${isTwelveHr ? "" : "bg-orange-500"} flex items-start justify-center p-1`}>
-                        <button onClick={() => setIsTwelveHr(false)} className="pt-1">24hr </button>
-                    </div>
+                <div className={`text-lg text bg-gray-700 border-2 border-r-0 border-solid rounded-l-lg border-orange-500 hover:bg-orange-500 ${isTwelveHr ? "bg-orange-500" : ""} flex items-start justify-center p-1`}>
+                    <button onClick={() => setIsTwelveHr(true)} className="pt-1">12hr</button>
                 </div>
+                <div className={`text-lg text bg-gray-700 border-2 border-l-0 border-solid rounded-r-lg border-orange-500 hover:bg-orange-500 ${isTwelveHr ? "" : "bg-orange-500"} flex items-start justify-center p-1`}>
+                    <button onClick={() => setIsTwelveHr(false)} className="pt-1">24hr </button>
+                </div>
+            </div>
             <div className="flex justify-center items-center p-4">
                 <div className="flex flex-col">
                     <div onClick={isTwelveHr ? handleAddHour12 : handleAddHour24} className="text-3xl text bg-gray-700 border-2 border-b-0 border-solid rounded-t-lg border-orange-500 h-7 hover:bg-orange-500 flex items-start justify-center pt-1 px-4">
