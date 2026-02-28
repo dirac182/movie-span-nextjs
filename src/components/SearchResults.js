@@ -66,6 +66,21 @@ export default function SearchResults() {
     </div>
 
     const accordionButtonString = accordionIsOpen ? "Hide Movie Details" : "Show Movie Details"
+    //
+    useEffect(() => {
+        if (!IdSearchResults) return;
+        if (typeof window === "undefined" || !window.umami) {
+            console.warn("Umami not available");
+            return;
+        }
+        try {
+            console.log("Tracker trigger");
+            // send an object for properties (avoid sending a raw string)
+            window.umami.track("Movie Searched", { name: IdSearchResults.name });
+        } catch (err) {
+            console.error("umami.track error:", err);
+        }
+        }, [IdSearchResults]);
 
     const accordionDiv = IdSearchResults ? 
     <div className={`md:w-4/5 border-white pb-6 ${accordionIsOpen ? 'border-t-2' : 'border-t'}`}>

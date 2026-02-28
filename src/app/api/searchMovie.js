@@ -21,7 +21,7 @@ export default async function searchMovie(term) {
         const url = `${apiSearchUrl}?query=${encodeURIComponent(term)}`;
         const response = await fetch(url, options);
         const data = await response.json()
-        
+        console.log(data)
         const movieList = data.titleResults.results.map((movie) => {
             const posterUrl = movie.listItem.primaryImage?.url || null;
             if (movie.listItem.titleType.id === "movie"){

@@ -32,8 +32,7 @@ export default function SearchDropdown({
                 text-white items-center h-full bg-gray-700
                 border-solid border-2 rounded-xl border-orange-500
                 hover:bg-gray-800 cursor-pointer md:p-2
-                w-40 md:w-48 lg:w-60 p-4 text-center"
-                
+                w-40 md:w-48 lg:w-60 p-4 text-center" 
         >
             <Image
                 alt="movie poster"
