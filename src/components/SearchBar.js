@@ -11,7 +11,8 @@ import SelectedMovieBanner from "./SelectedMovieBanner.js";
 
 export default function SearchBar (){
  
-    const { searchTerm, setSearchTerm, searchResults, clearSearch, setSearchResults } = useFormStore();
+    const { searchTerm, setSearchTerm, searchResults, clearSearch, setSearchResults } =
+        useFormStore();
     const [noResults, setNoResults] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSearchClicked, setIsSearchClicked] = useState(false);
@@ -56,12 +57,32 @@ export default function SearchBar (){
         }
     },[searchResults, isSearchClicked, isLoading, noResults])
 
-    const searchDropdown = searchResults ? searchResults.map((movie,index) => {
-        return <div key={movie.id || index} className="p-1 md:w-fill"><SearchDropdown title={movie.title} id={movie.id} image={movie.image} year={movie.releaseDate}/></div>
-    })
-    : null;
+    const searchDropdown = searchResults
+        ? searchResults.map((movie, index) => {
+              return (
+                  <div key={movie.id || index} className="p-1 md:w-fill">
+                      <SearchDropdown
+                          title={movie.title}
+                          id={movie.id}
+                          image={movie.image}
+                          year={movie.releaseDate}
+                      />
+                  </div>
+              );
+          })
+        : null;
 
-    const clearSearchTermButton = <span onClick={handleClearSearchTerm} className="flex items-center text-white text-lg bg-gray-700 border-solid border-2 border-r-0 border-l-0 border-orange-500 cursor-pointer"><MdOutlineCancel/></span>
+    const clearSearchTermButton = (
+        <span
+            onClick={handleClearSearchTerm}
+            className={[
+                "flex items-center text-white text-lg bg-gray-700 border-solid border-2",
+                "border-r-0 border-l-0 border-orange-500 cursor-pointer"
+            ].join(" ")}
+        >
+            <MdOutlineCancel />
+        </span>
+    );
 
 
     const selectedMovieBanner = <SelectedMovieBanner/>
@@ -82,7 +103,13 @@ export default function SearchBar (){
                         onChange={(event) => setSearchTerm(event.target.value)}
                         className="bg-gray-700 border-2 border-r-0 border-orange-500 rounded-l-lg h-10 text-white w-3/5 p-1" />
                         {searchTerm && clearSearchTermButton}
-                        <div onClick={handleSearchButton} className="px-3 bg-gray-700 flex items-center text-white border-2 rounded-r-lg border-l-0 border-orange-500 hover:bg-orange-500">
+                        <div
+                            onClick={handleSearchButton}
+                            className={[
+                                "px-3 bg-gray-700 flex items-center text-white border-2 rounded-r-lg",
+                                "border-l-0 border-orange-500 hover:bg-orange-500"
+                            ].join(" ")}
+                        >
                             <FaSearch/>
                         </div>
                     </div>

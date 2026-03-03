@@ -25,7 +25,15 @@ const useFormStore = create((set) => ({
     setAtTheater: (bool) => set(() => ({atTheater: bool})),
     endTime: null,
     setEndTime: (i) => set(() => ({endTime: i})),
-    clearSelected: () => set(() => ({selectedMovieInfo: [], selectedMovieId: null, isMovieSelected: false, searchTerm: "", endTime: null, endTime: null, IdSearchResults: null})),
+    clearSelected: () =>
+        set(() => ({
+            selectedMovieInfo: [],
+            selectedMovieId: null,
+            isMovieSelected: false,
+            searchTerm: "",
+            endTime: null,
+            IdSearchResults: null
+        })),
     clearSearch: () => set(() => ({searchResults: null, searchTerm: ""})),
     isTwelveHr: true,
     setIsTwelveHr: (i) => set(() => ({isTwelveHr: i}))

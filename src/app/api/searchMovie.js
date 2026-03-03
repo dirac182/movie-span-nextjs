@@ -1,6 +1,5 @@
 "use server";
-import dotenv from 'dotenv';
-import { headers } from 'next/headers';
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -9,13 +8,13 @@ export default async function searchMovie(term) {
 
     const apiSearchUrl = process.env.API_SEARCH_URL;
 
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': process.env.API_KEY,
-            'X-RapidAPI-Host': process.env.API_HOST
-        }
-    }
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": process.env.API_KEY,
+      "X-RapidAPI-Host": process.env.API_HOST,
+    },
+  };
 
     try {
         const url = `${apiSearchUrl}?query=${encodeURIComponent(term)}`;
@@ -34,7 +33,7 @@ export default async function searchMovie(term) {
                         "image": posterUrl,
                         "releaseDate": movie.listItem.releaseDate.year 
                     }
-                } catch (error) {
+                } catch {
                     info = {"title": "Unavailable", "id": "Unavailable", "image": null, "releaseDate": ""}
                 }
                 return info;

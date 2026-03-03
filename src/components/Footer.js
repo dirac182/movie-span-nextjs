@@ -13,8 +13,13 @@ export default function Footer () {
                 <div className="flex flex-col md:flex-row items-center pr-6">
                     <p className="text-sm md:text-lg text-center">Created by dirac182</p>
                     <div className="flex">
-                        <a href="https://github.com/dirac182" target="_blank" rel="noopener noreferrer" className="text-2xl pl-1 hover:text-orange-500 cursor-pointer"><FaGithub /></a>
-                        <a href="https://linkedin.com/in/dmorin9696" target="_blank" rel="noopener noreferrer" className="text-2xl pl-1 hover:text-orange-500 cursor-pointer"><FaLinkedin/></a>
+                        <a href="https://github.com/dirac182"
+                        target="_blank" rel="noopener noreferrer" 
+                        className="text-2xl pl-1 hover:text-orange-500 cursor-pointer"><FaGithub /></a>
+                        <a href="https://linkedin.com/in/dmorin9696" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-2xl pl-1 hover:text-orange-500 cursor-pointer"><FaLinkedin/></a>
                     </div>
                 </div>
         </div>
