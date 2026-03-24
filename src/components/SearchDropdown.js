@@ -4,7 +4,7 @@ import useSearchMovieId from "@/app/api/searchMovieId.js";
 import missingImg from "../../public/missing_img.png"
 
 export default function SearchDropdown({title, id, image, year}) {
-    const releaseYear = year ? `(${year})`: ""
+    const releaseYear = year ? `(${year.slice(0,4)})`: ""
     const { setSelectedMovieInfo,  setSelectedMovieId, setIdSearchResults } = useFormStore.getState();
     const imageUrl = image ? image : missingImg
     

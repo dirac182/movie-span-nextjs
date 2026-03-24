@@ -1,7 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { Watch } from "react-loader-spinner"
-import { FaImdb } from "react-icons/fa";
+import { SiThemoviedatabase } from "react-icons/si";
 import { IoMdAdd } from "react-icons/io";
 import { useSpring, animated } from "react-spring";
 import useFormStore from '../store/form-data.js';
@@ -107,20 +107,20 @@ export default function SearchResults() {
     <div className={`md:w-4/5 border-white pb-6 ${accordionIsOpen ? 'border-t-2' : 'border-t'}`}>
         <animated.div className={"overflow-hidden"} style={openAnimation}>
                 <div className={`grid text-center p-5  transition-all duration-300 ease-out ${accordionIsOpen ? 'grid-rows-1 opacity-100 ' : 'grid-rows-none opacity-0'}`}>
-                    <a className="font-bold text-orange-500 text-4xl hover:underline" href={`https://www.imdb.com/title/${IdSearchResults.movieId}`} target="_blank" rel="noopener noreferrer">{IdSearchResults.name}</a>
-                    <p className="text-white text-md md:text-xl pb-3">Directed by <a className="hover:underline" target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/name/${IdSearchResults.directorId}`}>{IdSearchResults.director}</a> </p>
+                    <a className="font-bold text-orange-500 text-4xl hover:underline" href={`https://www.themoviedb.org/movie/${IdSearchResults.movieId}`} target="_blank" rel="noopener noreferrer">{IdSearchResults.name}</a>
+                    <p className="text-white text-md md:text-xl pb-3">Directed by <a className="hover:underline" target="_blank" rel="noopener noreferrer" href={`https://www.themoviedb.org/person/${IdSearchResults.directorId}`}>{IdSearchResults.director}</a> </p>
                     <div className="flex justify-center px-2">
-                        <div className="flex text-3xl text-yellow-500 self-center"><FaImdb/><p className="text-white text-sm md:text-lg self-center">Rating: {IdSearchResults.rating}/10</p></div>
+                        <div className="flex text-3xl text-cyan-500 self-center"><SiThemoviedatabase className="mr-1"/><p className="text-white text-sm md:text-lg self-center">Rating: {IdSearchResults.rating}/10</p></div>
                         <div className="flex flex-wrap justify-center content-center px-5">
-                            {IdSearchResults.genreList.map((genre)=> { return <div className="text-white text-xs md:text-sm bg-gray-700 border-solid border-2 border-orange-500 rounded-lg mx-1 p-0.5 h-min self-center" key={genre.genre.text}>{genre.genre.text}</div> })}
+                            {IdSearchResults.genreList.map((genre)=> { return <div className="text-white text-xs md:text-sm bg-gray-700 border-solid border-2 border-orange-500 rounded-lg mx-1 p-0.5 h-min self-center" key={genre.id}>{genre.name}</div> })}
                         </div>
                         <p className="text-white text-sm md:text-lg self-center">Runtime: {IdSearchResults.runtimeString}</p>
                     </div>
                     <p className="text-white text-sm md:text-lg pt-2">{IdSearchResults.plotText}</p>
-                    {/* <p className="text-white text-lg md:text-xl pt-2">Main Cast</p> */}
-                    {/* <div className="flex flex-wrap justify-center">
-                        {IdSearchResults.castList.map((cast,index)=> {const charName = cast.node.characters ? cast.node.characters[0].name : "N/A"; const imageLink = cast.node.name.primaryImage ? cast.node.name.primaryImage.url : "../images/no-image.jpg" ; return <a key={index} target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/name/${cast.node.name.id}`}><div className="text-white text-xs bg-gray-700 border-solid border-2 border-orange-500 rounded-lg m-1 p-0.5" key={cast.node.name.id}><div className="flex justify-center "><Image alt="Cast memeber" width={125} height={100} style={{borderRadius: "10px"}} src={imageLink}/></div><p>{cast.node.name.nameText.text} <br/> as {charName}</p></div></a> })}
-                    </div> */}
+                    <p className="text-white text-lg md:text-xl pt-2">Main Cast</p>
+                    <div className="flex flex-wrap justify-center">
+                        {IdSearchResults.castList.map((cast,index)=> {const charName = cast.character ? cast.character : "N/A"; const imageLink = cast.profile_path ? cast.profile_path : "../images/no-image.jpg" ; return <a key={index} target="_blank" rel="noopener noreferrer" href={`https://www.themoviedb.org/person/${cast.id}`}><div className="text-white text-xs bg-gray-700 border-solid border-2 border-orange-500 rounded-lg m-1 p-0.5" key={cast.credit_id}><div className="flex justify-center "><Image alt="Cast memeber" width={125} height={100} style={{borderRadius: "10px"}} src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}/></div><p>{cast.original_name} <br/> as {charName}</p></div></a> })}
+                    </div>
                 </div>
             </animated.div>
         <animated.div style={openAnimation}>

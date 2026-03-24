@@ -6,42 +6,44 @@ dotenv.config();
 
 export default async function searchMovie(term) {
     console.log("Term searched: " + term);
+    console.log(process.env.NEW_API_KEY)
 
-    const apiSearchUrl = process.env.API_SEARCH_URL;
+    const apiUrl = process.env.NEW_API_HOST;
+    const apiUrlExtention = process.env.NEW_MOVIE_SEARCH_URL;
 
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': process.env.API_KEY,
-            'X-RapidAPI-Host': process.env.API_HOST
+            'Authorization':` Bearer ${process.env.NEW_API_KEY}`,
+            'accept': "application/json" 
         }
     }
 
     try {
-        const url = `${apiSearchUrl}?query=${encodeURIComponent(term)}`;
+        const url = `${apiUrl}${apiUrlExtention}?query=${encodeURIComponent(term)}&include_adult=false&language=en-US&page=1`;
         const response = await fetch(url, options);
         const data = await response.json()
         
-        const movieList = data.titleResults.results.map((movie) => {
-            const posterUrl = movie.listItem.primaryImage?.url || null;
-            if (movie.listItem.titleType.id === "movie"){
-                let info;
 
+        const movieList = data.results.map((movie) => {
+            if( movie.popularity >= 5){
+                let info;
+                const posterUrl = process.env.API_IMAGE_URL + movie.poster_path;
                 try {
-                    info = {
-                        "title": movie.listItem.originalTitleText,
-                        "id": movie.index,
-                        "image": posterUrl,
-                        "releaseDate": movie.listItem.releaseDate.year 
+                        info = {
+                            "title": movie.original_title,
+                            "id": movie.id,
+                            "image": posterUrl,
+                            "releaseDate": movie.release_date 
+                        }
+                    } catch (error) {
+                        info = {"title": "Unavailable", "id": "Unavailable", "image": null, "releaseDate": ""}
                     }
-                } catch (error) {
-                    info = {"title": "Unavailable", "id": "Unavailable", "image": null, "releaseDate": ""}
+                    return info;
                 }
-                return info;
-            }
-            return null;
-        }).filter((movie) => movie !== null);
-        
+                return null;
+            }).filter((movie) => movie !== null);
+        console.log(movieList)
         return movieList;
 
     } catch (error) {
