@@ -78,10 +78,6 @@ export default function SearchResults() {
         }
     },[clockHr,clockMin, isPm, atTheater, IdSearchResults, isMovieSelected, isTwelveHr])
 
-    useEffect(() => {
-        console.log("STORE endTime CHANGED:", endTime);
-        }, [endTime]);
-
     const endTimeDiv =  <div className="text-center p-5 md:w-2/5">
         <p className="font-bold text-white text-3xl border-dotted border-8 border-orange-500 p-2 ">Your movie will end around {endTime}</p> 
     </div>

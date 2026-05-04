@@ -7,7 +7,8 @@ import useSearchMovies from "../app/api/searchMovie.js";
 import SearchDropdown from "./SearchDropdown.js"
 import { ThreeCircles } from "react-loader-spinner";
 import SelectedMovieBanner from "./SelectedMovieBanner.js";
-
+import getNowPlaying from "@/app/api/getNowPlaying";
+import NowPlayingCarousel from "./NowPlayingCarousel.js";
 
 export default function SearchBar (){
  
@@ -15,6 +16,8 @@ export default function SearchBar (){
     const [noResults, setNoResults] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const [carouselMovies, setCarouselMovies] = useState([]);
+    const [isLoadingCarousel, setIsLoadingCarousel] = useState(true);
     const inputRef = useRef(null); 
     
     const handleClearSearchTerm = () => {
@@ -38,7 +41,18 @@ export default function SearchBar (){
             await setSearchResults(movieList);
             
         }
-    } 
+    }
+    
+    useEffect( () => {
+        async function getCarouselMovies() {
+            const movies = await getNowPlaying();
+            if(movies){
+                setCarouselMovies(movies);
+            }
+            setIsLoadingCarousel(false);
+        }
+        getCarouselMovies();
+    }, [])
 
     useEffect(() => {
         if (isSearchClicked && isLoading === false && searchResults){
@@ -74,10 +88,14 @@ export default function SearchBar (){
     return (
         
            <form onSubmit={handleSearchButton}>
+                <div>
+                    <NowPlayingCarousel movies={carouselMovies} isLoading={isLoadingCarousel}/> 
+                </div>
                 <div className=" pt-5 md:flex md:flex-col justify-center items-center">
+                    <p className="text-center">Find out when your movie will end!</p>
                     <div className="flex justify-center p-5 md:w-3/5">
                         <input 
-                        placeholder="Enter Movie Name"
+                        placeholder="Search Movie Here..."
                         value={searchTerm}
                         onChange={(event) => setSearchTerm(event.target.value)}
                         className="bg-gray-700 border-2 border-r-0 border-orange-500 rounded-l-lg h-10 text-white w-3/5 p-1" />

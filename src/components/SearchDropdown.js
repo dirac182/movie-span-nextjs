@@ -9,12 +9,20 @@ export default function SearchDropdown({title, id, image, year}) {
     const imageUrl = image ? image : missingImg
     
     const handleMovieClick = async () => {
-        console.log("dropdown clicked")
-        setSelectedMovieInfo({title,id,image,year})
-        setSelectedMovieId(id)
-        const search = await useSearchMovieId(id)
-        await setIdSearchResults(search)
-    }
+        try{
+            console.log("requesting movie id:", id);
+            setSelectedMovieInfo({title,id,image,year})
+            setSelectedMovieId(id)
+            const res = await fetch(`/api/movies/${id}`);
+            if (!res.ok) {
+                throw new Error("Failed to fetch movie data.")
+            }
+            const data = await res.json()
+            setIdSearchResults(data.movie)
+        }catch (error) {
+            console.error("Movie fetch error:", error)
+        }
+    };
 
     return(
         <div onClick={handleMovieClick} className="flex flex-col text-white items-center bg-gray-700 border-solid border-2 rounded-xl border-orange-500 hover:bg-gray-800 cursor-pointer md:w-fill p-2">

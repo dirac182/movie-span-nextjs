@@ -17,7 +17,7 @@ export default async function searchMovieId(id) {
 
     try {
         //GET Movie Details
-        const movieDetailsResponse = await fetch(`${apiUrl}${apiSearchMovieByIdExtention}${encodeURIComponent(id)}`, options);
+        const movieDetailsResponse = await fetch(`${apiUrl}${apiSearchMovieByIdExtention}${encodeURIComponent(id)}?refresh=true`, options);
         const movieDetails = await movieDetailsResponse.json()
         
         //Runtime 
@@ -46,6 +46,8 @@ export default async function searchMovieId(id) {
             director: director.original_name,
             directorId: director.id,
             plotText: movieDetails.overview,
+            posterPath: movieDetails.poster_path ?? null,
+            backdropPath: movieDetails.backdrop_path ?? null,
             castList: castList,
             genreList: movieDetails.genres,
         };

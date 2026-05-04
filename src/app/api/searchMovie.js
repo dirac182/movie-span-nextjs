@@ -1,13 +1,10 @@
 "use server";
 import dotenv from 'dotenv';
-import { headers } from 'next/headers';
 
 dotenv.config();
 
 export default async function searchMovie(term) {
     console.log("Term searched: " + term);
-    console.log(process.env.NEW_API_KEY)
-
     const apiUrl = process.env.NEW_API_HOST;
     const apiUrlExtention = process.env.NEW_MOVIE_SEARCH_URL;
 
@@ -26,7 +23,7 @@ export default async function searchMovie(term) {
         
 
         const movieList = data.results.map((movie) => {
-            if( movie.popularity >= 5){
+            if( movie.popularity >= 2.5){
                 let info;
                 const posterUrl = process.env.API_IMAGE_URL + movie.poster_path;
                 try {

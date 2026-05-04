@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlserver"
+}
+
+model Movie {
+  id            Int          @id @default(autoincrement())
+  movieId       Int          @unique
+  name          String
+  runtime       String
+  runtimeString String
+  rating        Float
+  ratingCount   Int
+  plotText      String       @db.NVarChar(Max)
+  posterPath    String?
+  backdropPath  String?
+  directorDbId  Int?
+  director      Director?    @relation(fields: [directorDbId], references: [id])
+  castMembers   CastMember[]
+  genres        MovieGenre[]
+  cachedAt      DateTime     @default(now())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@index([movieId])
+}
+
+model Director {
+  id     Int     @id
+  name   String
+  movies Movie[]
+}
+
+model CastMember {
+  id           Int
+  movieDbId    Int
+  name         String
+  originalName String?
+  character    String?
+  profilePath  String?
+  knownForDept String?
+  castOrder    Int?
+  movie        Movie   @relation(fields: [movieDbId], references: [id], onDelete: Cascade)
+
+  @@id([id, movieDbId])
+  @@index([movieDbId])
+}
+
+model Genre {
+  id     Int          @id
+  name   String
+  movies MovieGenre[]
+}
+
+model MovieGenre {
+  movieDbId Int
+  genreId   Int
+  movie     Movie @relation(fields: [movieDbId], references: [id], onDelete: Cascade)
+  genre     Genre @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([movieDbId, genreId])
+  @@index([genreId])
+}
