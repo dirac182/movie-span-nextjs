@@ -50,7 +50,6 @@ export default async function searchMovieId(id) {
             genreList: movieDetails.genres,
         };
         console.log("Movie Searched: ", movieDetails.original_title," -- Runtime: " ,runtime)
-        console.log(movieData);
         return movieData;
 
     } catch (error) {

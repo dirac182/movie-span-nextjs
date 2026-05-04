@@ -6,7 +6,6 @@ dotenv.config();
 
 export default async function searchMovie(term) {
     console.log("Term searched: " + term);
-    console.log(process.env.NEW_API_KEY)
 
     const apiUrl = process.env.NEW_API_HOST;
     const apiUrlExtention = process.env.NEW_MOVIE_SEARCH_URL;
@@ -43,7 +42,6 @@ export default async function searchMovie(term) {
                 }
                 return null;
             }).filter((movie) => movie !== null);
-        console.log(movieList)
         return movieList;
 
     } catch (error) {

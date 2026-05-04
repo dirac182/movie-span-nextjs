@@ -9,7 +9,6 @@ export default function SearchDropdown({title, id, image, year}) {
     const imageUrl = image ? image : missingImg
     
     const handleMovieClick = async () => {
-        console.log("dropdown clicked")
         setSelectedMovieInfo({title,id,image,year})
         setSelectedMovieId(id)
         const search = await useSearchMovieId(id)

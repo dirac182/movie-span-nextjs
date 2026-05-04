@@ -39,7 +39,7 @@ export default function SearchResults() {
             setIsLoading(true);
         }
         if (IdSearchResults){
-            const timeToAdd = Number(IdSearchResults.runtime) || 0; // seconds
+            const timeToAdd = Number(IdSearchResults.runtime * 60) || 0; 
             let hour = parseInt(clockHr, 10) || 0;
             const minute = parseInt(clockMin, 10) || 0;
 
@@ -55,32 +55,30 @@ export default function SearchResults() {
 
             let newTime = new Date(2001, 0, 1, hour, minute, 0);
             const additionalSeconds = atTheater ? timeToAdd + trailerTime * 60 : timeToAdd;
-                newTime.setSeconds(newTime.getSeconds() + additionalSeconds);
+
+            newTime.setSeconds(newTime.getSeconds() + additionalSeconds);
+
             
             const computedEndTime24 = new Intl.DateTimeFormat("en-GB", {
                 hour: "2-digit",
                 minute: "2-digit",
                 hour12: false,
-            }).format(newTime); // e.g. "19:42"
+            }).format(newTime);
 
-            // 2) Friendly display (respects your 12/24 toggle)
+            
             const computedEndTimeDisplay = isTwelveHr
                 ? new Intl.DateTimeFormat("en-US-u-hc-h12", {
                     hour: "numeric",
                     minute: "2-digit",
                     hour12: true,
-                }).format(newTime) // e.g. "7:42 PM"
-                : computedEndTime24; // e.g. "19:42"
+                }).format(newTime)
+                : computedEndTime24;
                 
             setEndTime(computedEndTimeDisplay);
             setEndTime24(computedEndTime24);
             setIsLoading(false);
         }
     },[clockHr,clockMin, isPm, atTheater, IdSearchResults, isMovieSelected, isTwelveHr])
-
-    useEffect(() => {
-        console.log("STORE endTime CHANGED:", endTime);
-        }, [endTime]);
 
     const endTimeDiv =  <div className="text-center p-5 md:w-2/5">
         <p className="font-bold text-white text-3xl border-dotted border-8 border-orange-500 p-2 ">Your movie will end around {endTime}</p> 
@@ -95,7 +93,6 @@ export default function SearchResults() {
             return;
         }
         try {
-            console.log("Tracker trigger");
             // send an object for properties (avoid sending a raw string)
             window.umami.track("Movie Searched", { name: IdSearchResults.name });
         } catch (err) {
